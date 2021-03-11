@@ -22,8 +22,12 @@ client.on('message', message => {
 		console.log(args)
     const cmd = args.shift().toLowerCase();
     let command = client.commands.get(cmd)
-    if(command)return command.execute(client, message, args)
-	
+ if(command){
+try {
+ command.execute(client, message, args)
+} catch (error) {
+  console.error(error);
+}}
 		if(!command)message.channel.send("Couldn't find that command, to get my commands, type !help :\)")
 	
 })
