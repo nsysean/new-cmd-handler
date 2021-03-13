@@ -55,7 +55,13 @@ return console.log(" ")
 }
  else{
 	 
-
+const cmd = client.commands.get(args.join(" "))
+if(cmd){
+	const { MessageEmbed } = require("discord.js")
+const embed = new MessageEmbed()
+.setDescription(`Name: \`${cmd.name}\`\nDescription: \`${cmd.description||("No description owo")}\`\nAliases: \`${cmd.aliases || ("No aliases")}\`\nUsage: \`${cmd.usage || (`${prefix}${cmd.name}`)}\``)
+return message.channel.send(embed)}
+} else{
 const commands = readdirSync(`./commands/${args.join(" ")}/`)
 let command = []
 commands.forEach(cmd => {
@@ -75,7 +81,8 @@ const { MessageEmbed } = require("discord.js")
 const embed = new MessageEmbed()
 .setTitle(`${args.join(" ")} commands`)
 .addFields(command)
-return message.channel.send(embed)}
+return message.channel.send(embed)
+}}
 
 
 

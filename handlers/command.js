@@ -14,7 +14,8 @@ module.exports= (client) => {
               table.push(
     [pull.name, '✅']
  
-);}else{table.push[file.name, '❌']}}});
+);
+}else{table.push[file.name, '❌']}if(pull.aliases && Array.isArray(pull.aliases)) pull.aliases.forEach(alias => client.aliases.set(alias, pull.name))}});
 readdirSync('./commands/').forEach(dir => {
         const commands = readdirSync(`./commands/${dir}/`).filter(file => !file.endsWith('.js'));
         for(let file of commands){
