@@ -61,7 +61,7 @@ if(cmd){
 const embed = new MessageEmbed()
 .setDescription(`Name: \`${cmd.name}\`\nDescription: \`${cmd.description||("No description owo")}\`\nAliases: \`${cmd.aliases || ("No aliases")}\`\nUsage: \`${cmd.usage || (`${prefix}${cmd.name}`)}\``)
 return message.channel.send(embed)}
-} else{
+ else{
 const commands = readdirSync(`./commands/${args.join(" ")}/`)
 let command = []
 commands.forEach(cmd => {
