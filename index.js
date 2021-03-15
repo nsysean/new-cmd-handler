@@ -3,6 +3,7 @@ const client = new Client
 const config = require("./config.json")
 let prefix = (config.prefix)
 const fs = require("fs")
+require("./msg.js")
 module.exports = client;
 client.commands = new Collection();
 client.aliases = new Collection();
@@ -29,10 +30,11 @@ client.on('message', message => {
  if(command){
 try {
  command.execute(client, message, args)
+ return message.react('✅')
 } catch (error) {
   console.error(error);
 }}
 		if(!command)message.channel.send("Couldn't find that command, to get my commands, type !help :\)")
-	
+	message.react('❎')
 })
 client.login(config.token)

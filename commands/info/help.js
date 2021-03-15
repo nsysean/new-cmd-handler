@@ -3,6 +3,7 @@ const { readdirSync } = require("fs")
 
 module.exports = {
     name : 'help',
+		aliases: ['h'],
     description : 'help cmd',
 
    execute : async(client, message, args) => {
@@ -41,14 +42,14 @@ const dirt = ("./commands/");
         
      
         .setDescription(
-          `Use \`${prefix}help\` followed by a command name to get more additional information on a category. For example: \`${prefix}help info\`.`
+          `\`\`\`Use \`${prefix}help\` followed by a command name to get more additional information on a category. For example: \`${prefix}help help\`.\`\`\``
         )
         .setFooter(
           `Requested by ${message.author.tag}`,
           message.author.displayAvatarURL({ dynamic: true })
         )
         .setTimestamp()
-      return message.channel.send(embed);
+      return message.inlineReply(embed);
    
 })
 return console.log(" ")
@@ -56,13 +57,11 @@ return console.log(" ")
  else{
 	 
 const cmd = client.commands.get(args.join(" "))
-if(cmd){
-	const { MessageEmbed } = require("discord.js")
-const embed = new MessageEmbed()
-.setDescription(`Name: \`${cmd.name}\`\nDescription: \`${cmd.description||("No description owo")}\`\nAliases: \`${cmd.aliases || ("No aliases")}\`\nUsage: \`${cmd.usage || (`${prefix}${cmd.name}`)}\``)
-return message.channel.send(embed)}
- else{
-const commands = readdirSync(`./commands/${args.join(" ")}/`)
+if(client.categories.includes(args.join(" "))){
+	const commands = readdirSync(`./commands/${args.join(" ")}/`).filter((file) =>
+          file.endsWith(".js")
+        );
+
 let command = []
 commands.forEach(cmd => {
   let file = require(`../../commands/${args.join(" ")}/${cmd}`);
@@ -81,7 +80,19 @@ const { MessageEmbed } = require("discord.js")
 const embed = new MessageEmbed()
 .setTitle(`${args.join(" ")} commands`)
 .addFields(command)
-return message.channel.send(embed)
+return message.inlineReply(embed)
+}
+if(cmd){
+	const { MessageEmbed } = require("discord.js")
+const embed = new MessageEmbed()
+.setDescription(`Name: \`${cmd.name}\`\nDescription: \`${cmd.description||("No description owo")}\`\nAliases: \`${cmd.aliases || ("No aliases")}\`\nUsage: \`${cmd.usage || (`${prefix}${cmd.name}`)}\``)
+return message.inlineReply(embed)}
+ else{
+
+const { MessageEmbed } = require("discord.js")
+const embed = new MessageEmbed()
+.setTitle(`\`Can't find the command: ${args.join(" ")} :(\``)
+return message.inlineReply(embed)
 }}
 
 
